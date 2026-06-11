@@ -1,10 +1,10 @@
-# 🧠 AI People Counter
+# AI People Counter
 
 A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoDB**, and **Docker**. Video frames are ingested, streamed through Redis, processed by an AI model, and stored for querying via a REST API.
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 [Ingestion Server] ──► [Redis Streams] ──► [Processing Server] ──► [MongoDB]
@@ -21,7 +21,7 @@ A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoD
 
 ---
 
-## 📦 Prerequisites
+## Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
 - Git
@@ -30,7 +30,7 @@ A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoD
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the repository
 
@@ -85,7 +85,7 @@ docker compose up --build -d
 
 ---
 
-## 🔄 Switching Videos (No Rebuild Needed)
+## Switching Videos (No Rebuild Needed)
 
 After the first build, to switch to a different video:
 
@@ -133,7 +133,7 @@ curl http://localhost:8000/latest
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Technology | Version | Purpose |
 |---|---|---|
@@ -147,7 +147,7 @@ curl http://localhost:8000/latest
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── ingestion_server.py      # Reads video, pushes frames to Redis
@@ -161,7 +161,7 @@ curl http://localhost:8000/latest
 
 ---
 
-## ⚠️ Notes
+## Notes
 
 - The ingestion server **stops automatically** after the video ends — this is expected behavior.
 - On first run, YOLOv8 may take a moment to initialize before processing begins.
