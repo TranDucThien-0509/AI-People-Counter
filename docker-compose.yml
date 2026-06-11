@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: bigdata_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mongodb:
+    image: mongo:7.0
+    container_name: bigdata_mongodb
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  processing-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.processing
+    container_name: ai_processing_server
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+    environment:
+      - REDIS_HOST=redis
+      - MONGO_HOST=mongodb
+      - VIDEO_SOURCE=/videos/2.mp4   # ← đổi tên file ở đây
+    volumes:
+      - ./video:/videos     
+
+  ingestion-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.ingestion
+    container_name: camera_ingestion_server
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      - REDIS_HOST=redis

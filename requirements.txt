@@ -1,0 +1,7 @@
+opencv-python==4.9.0.80
+redis==5.0.4
+pymongo==4.7.2
+ultralytics==8.2.15
+fastapi==0.111.0
+uvicorn==0.29.0
+numpy==1.26.4

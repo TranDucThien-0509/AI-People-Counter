@@ -1,10 +1,10 @@
-# AI People Counter
+# 🧠 AI People Counter
 
 A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoDB**, and **Docker**. Video frames are ingested, streamed through Redis, processed by an AI model, and stored for querying via a REST API.
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ```
 [Ingestion Server] ──► [Redis Streams] ──► [Processing Server] ──► [MongoDB]
@@ -21,7 +21,7 @@ A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoD
 
 ---
 
-## Prerequisites
+## 📦 Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (includes Docker Compose)
 - Git
@@ -30,7 +30,7 @@ A real-time people counting system using **YOLOv8**, **Redis Streams**, **MongoD
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 ### 1. Clone the repository
 
@@ -85,7 +85,7 @@ docker compose up --build -d
 
 ---
 
-## Switching Videos (No Rebuild Needed)
+## 🔄 Switching Videos (No Rebuild Needed)
 
 After the first build, to switch to a different video:
 
@@ -106,6 +106,40 @@ docker exec -it bigdata_mongodb mongosh --eval \
 ```bash
 docker compose restart ingestion-server
 ```
+
+---
+
+## 🖥️ Monitoring (Logs)
+
+Watch live logs for each service:
+
+```bash
+# AI processing — see detections in real time
+docker logs ai_processing_server -f
+
+# Ingestion — see frames being pushed
+docker logs camera_ingestion_server -f
+
+# All services at once
+docker compose logs -f
+```
+
+---
+
+## 📊 Dashboard
+
+A visual dashboard is available at `dashboard/index.html`. Open it in your browser after the system is running — no extra setup needed.
+
+![Dashboard Preview](dashboard/preview.png)
+
+```
+AI-People-Counter/
+├── dashboard/
+│   ├── index.html       # Main dashboard UI
+│   └── preview.png      # Screenshot for README
+```
+
+The dashboard connects to the `/stats/stream` SSE endpoint and displays live person count updates.
 
 ---
 
@@ -133,7 +167,7 @@ curl http://localhost:8000/latest
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Technology | Version | Purpose |
 |---|---|---|
@@ -147,7 +181,7 @@ curl http://localhost:8000/latest
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── ingestion_server.py      # Reads video, pushes frames to Redis
@@ -156,12 +190,15 @@ curl http://localhost:8000/latest
 ├── Dockerfile.processing    # Docker image for processing server
 ├── docker-compose.yml       # Orchestrates all services
 ├── yolov8n.pt               # YOLOv8 nano model weights
+├── dashboard/
+│   ├── index.html           # Live dashboard UI
+│   └── preview.png          # Screenshot for README
 └── video/                   # Put your .mp4 files here (not committed to git)
 ```
 
 ---
 
-## Notes
+## ⚠️ Notes
 
 - The ingestion server **stops automatically** after the video ends — this is expected behavior.
 - On first run, YOLOv8 may take a moment to initialize before processing begins.
